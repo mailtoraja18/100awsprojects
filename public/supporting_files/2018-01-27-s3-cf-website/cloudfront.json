@@ -1,0 +1,95 @@
+DistributionConfig={
+		'CallerReference':'0127201812345',
+        'Comment':'static hosting',
+        'Aliases': {
+            'Quantity': 2,
+            'Items': [
+                '${DOMAIN_NAME}','www.${DOMAIN_NAME}'
+            ]
+        },
+        'DefaultRootObject': 'index.html',
+        'Origins': {
+            'Quantity': 1,
+            'Items': [
+                {
+                    'Id': '${BUCKET_NAME}-origin',
+                    'DomainName': "${BUCKET_NAME}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com",
+                    'CustomOriginConfig': {
+                        'HTTPPort': 80,
+                        'OriginProtocolPolicy': 'http-only',
+                        'OriginSslProtocols': {
+                            'Quantity': 3,
+                            'Items': [
+                                'TLSv1', 'TLSv1.1', 'TLSv1.2'
+                            ]
+                        },
+                    "HTTPSPort": 443
+                    }
+                },
+            ]
+        },
+        'DefaultCacheBehavior': {
+            'TargetOriginId':'${BUCKET_NAME}-origin',
+            'DefaultTTL':1800,
+            'ForwardedValues': {
+                'QueryString': False,
+                'Cookies': {
+                    'Forward': 'none''
+                },
+                'Headers': {
+                    'Quantity': 0
+                }
+            },
+            'TrustedSigners': {
+                'Enabled': False,
+                'Quantity': 0       
+            },
+            'ViewerProtocolPolicy': 'redirect-to-https',
+            'MinTTL': 0,
+            'AllowedMethods': {
+                'Quantity': 2,
+                'Items': [
+                      'GET', 'HEAD'
+                ],
+                'CachedMethods': {
+                    'Quantity': 2,
+                    'Items': [
+                         'GET', 'HEAD'
+                    ]
+                }
+            },
+            'Compress': True        
+        },
+        'CustomErrorResponses': {
+            'Quantity': 2,
+            'Items': [
+                {
+                    'ErrorCode': 403,
+                    'ResponsePagePath': '/404.html',
+                    'ResponseCode': '404',
+                    'ErrorCachingMinTTL': 300
+                },
+				 {
+                    'ErrorCode': 404,
+                    'ResponsePagePath': '/404.html',
+                    'ResponseCode': '404',
+                    'ErrorCachingMinTTL': 300
+                }
+            ]
+        }
+        'Logging': {
+            'Enabled': True,
+            'Bucket': "${LOG_BUCKET_NAME}.s3.amazonaws.com",
+            'Prefix': "${BUCKET_NAME}-cf/",
+            'IncludeCookies': False
+        },
+        'PriceClass': 'PriceClass_All',
+        'Enabled': True,
+        'ViewerCertificate': {
+            'ACMCertificateArn': '${SSL_ARN}',
+            'SSLSupportMethod': 'sni-only',
+            'MinimumProtocolVersion': 'TLSv1',
+            'Certificate': '${SSL_ARN}',
+            'CertificateSource': 'acm'
+        }
+}

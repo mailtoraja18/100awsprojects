@@ -1,0 +1,25 @@
+{{ partial "header.html" . }}
+
+<div id="main">
+ <div id="content">
+  <div class="blog-index">
+      <article> <table cellpadding="0" cellspacing="0">
+    {{ $paginator := .Paginate (where .Data.Pages "Type" "post") }}
+    {{ range $paginator.Pages }}
+       <tr> <td>
+        {{ .Scratch.Set "isHome" true }}
+        {{ partial "post_header.html" . }}
+       </td>
+       </tr>
+    {{ end }}
+      </table>
+      </article>
+    <!-- {{ template "_internal/pagination.html" . }} default pagination -->
+    {{ partial "pagination.html" . }}  <!-- use custom pagination -->
+  </div>
+
+  {{ partial "sidebar.html" . }}    <!-- sidebar -->
+ </div>
+</div>
+
+{{ partial "footer.html" . }}   <!-- footer -->
