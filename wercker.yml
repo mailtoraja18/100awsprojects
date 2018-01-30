@@ -25,7 +25,7 @@ build:
         version: "0.32.4"
         theme: Hugo-Octopress
         flags: --buildDrafts=true
-    - edgecaseadmin/install-aws-cli:
+    - odk211/install-awscli:
         key: $AWS_KEY
         secret: $AWS_SECRET
         region: $AWS_REGION
