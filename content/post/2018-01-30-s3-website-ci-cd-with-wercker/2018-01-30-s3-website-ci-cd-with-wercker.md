@@ -6,6 +6,9 @@ include_toc: true
 ---
 <!--more-->
 
+Here is our goal. Lets take the hugo project we built previously and hook it up with continuous integration and continuous deployment pipeline 
+using wercker. Once you commit a change to github , Wercker will be informed , which in ur kicks off a pipeline of command to checkout , build and deploy your code.
+Here we are using build steps that are already available in Wercker market place. We will just write the steps to do deployment to s3. Cool , lets get started ...
 
 ## Part 1 , Git Setup  
 
