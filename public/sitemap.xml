@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://100awsprojects.com/post/2018-01-30-s3-website-ci-cd-with-wercker/</loc>
+    <lastmod>2018-01-30T13:13:22-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://100awsprojects.com/post/2018-01-27-s3-website-using-cf--route-53-and-python-scripts/</loc>
     <lastmod>2018-01-27T18:42:13-05:00</lastmod>
   </url>
@@ -14,7 +19,7 @@
   
   <url>
     <loc>https://100awsprojects.com/</loc>
-    <lastmod>2018-01-27T18:42:13-05:00</lastmod>
+    <lastmod>2018-01-30T13:13:22-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -25,7 +30,7 @@
   
   <url>
     <loc>https://100awsprojects.com/post/</loc>
-    <lastmod>2018-01-27T18:42:13-05:00</lastmod>
+    <lastmod>2018-01-30T13:13:22-05:00</lastmod>
     <priority>0</priority>
   </url>
   
