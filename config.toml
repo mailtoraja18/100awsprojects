@@ -105,9 +105,21 @@ post = "/post/:year-:month-:day-:title/"
 [[menu.main]]
   Name = "All Posts"
   URL = "/"
-  weight = -10
-
+  weight = -120
+  
 [[menu.main]]
-  Name = "About Me !"
-  URL = "/about"
-  weight = -5
+  name = "AWS Links"
+  pre = "<i class='fa fa-heart'></i>"
+  weight = -110
+  identifier = "awslinks"
+  url = "/awslinks/"
+
+[[menu.main]]  
+  url = "/tweets/"
+  name = "Tweets"
+  weight = -100
+
+[[menu.main]]  
+  url = "/about/"
+  name = "About"
+  weight = -90

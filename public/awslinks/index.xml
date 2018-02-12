@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>awslinks on 100 AWS Projects</title>
+    <link>https://100awsprojects.com/awslinks/</link>
+    <description>Recent content in awslinks on 100 AWS Projects</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 07 Feb 2018 03:13:22 -0500</lastBuildDate>
+    
+	<atom:link href="https://100awsprojects.com/awslinks/index.xml" rel="self" type="application/rss+xml" />
+     
+  </channel>
+</rss>

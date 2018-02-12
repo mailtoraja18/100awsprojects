@@ -12,7 +12,6 @@
             - {{ range .Params.categories }}<a class="label" href="{{ "/categories/" | absURL }}{{ . | urlize | lower }}/">{{ . }} </a>{{ end }}
         {{ end }}
        
-        {{ if ($.Scratch.Get "isHome") }}<a href="{{ .Permalink }}">{{ .Title }}</a>{{ else }}  <h3 class="entry-title"> {{ .Title }}  </h3> {{ end }}
-       
+        {{ if ($.Scratch.Get "isHome") }}<a href="{{ .Permalink }}">{{ .Title }}</a>{{ else }}  <h3 class="entry-title"> {{ .Title }}  </h3> {{ end }}        
     </p>
 </div>

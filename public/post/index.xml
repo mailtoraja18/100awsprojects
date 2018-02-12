@@ -6,10 +6,28 @@
     <description>Recent content in Posts on 100 AWS Projects</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 30 Jan 2018 13:13:22 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 08 Feb 2018 03:13:22 -0500</lastBuildDate>
     
 	<atom:link href="https://100awsprojects.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>AWS Serverless Project DynamoDB Part 2</title>
+      <link>https://100awsprojects.com/post/2018-02-08-aws-serverless-project-dynamodb-part-2/</link>
+      <pubDate>Thu, 08 Feb 2018 03:13:22 -0500</pubDate>
+      
+      <guid>https://100awsprojects.com/post/2018-02-08-aws-serverless-project-dynamodb-part-2/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>AWS Serverless Project Introduction Part 1</title>
+      <link>https://100awsprojects.com/post/2018-02-07-aws-serverless-project-introduction-part-1/</link>
+      <pubDate>Wed, 07 Feb 2018 13:13:22 -0500</pubDate>
+      
+      <guid>https://100awsprojects.com/post/2018-02-07-aws-serverless-project-introduction-part-1/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>S3 Website Ci Cd With Wercker</title>
