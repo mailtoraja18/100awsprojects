@@ -4,13 +4,14 @@ date: 2018-02-11T03:13:22-05:00
 draft: false
 include_toc: true
 ---
+<!-- more -->
 
 ## First Read this
 Understanding the lambda function Handler [Read More...](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-handler.html)
 
 ## Create IAM Policy
 Review and use the below 3 files , download to a folder and execute the following command
-This create a IAM Role and grants (2) permission to the Pet table and the Cloudwatch logs
+This will create a IAM Role and grants (2) permission to the Pet table and the Cloudwatch logs.
 
 * [trustpolicy.json](/supporting_files/2018-02-11-serverless-project-lambda-integration-part-3/trustpolicy.json)
 * [dynamodb_permission_serverless.json](/supporting_files/2018-02-11-serverless-project-lambda-integration-part-3/dynamodb_permission_serverless.json)
@@ -26,7 +27,7 @@ $ aws iam put-role-policy --role-name lambda-execution-serverless --policy-name 
 $ aws iam put-role-policy --role-name lambda-execution-serverless --policy-name permission-log-serverless --policy-document file://log_permission_serverless.json
 
 ```
-After this step make a note of the `arn:aws:iam::375525124878:role/lambda-execution-serverless` fron your command window
+After this step make a note of the `arn:aws:iam::375525124878:role/lambda-execution-serverless` from your command window
 
 Login and review from console now !!
 
@@ -55,7 +56,16 @@ docClient.query(params, function(err, data) {
     } else {
         console.log("Query succeeded.");
         data.Items.forEach(function(item) {
-            callback(null, JSON.stringify(item)); //returning call using callback
+            //response has to structure this way for API Gateway to handle
+            var response = {
+                "statusCode": 200,
+                "headers": {
+                    "my_header": "my_value"
+                },
+                "body": JSON.stringify(item), //data
+                "isBase64Encoded": false
+            };
+            callback(null,response); //returning call using callback
             console.log(item);
         });
     }
@@ -71,7 +81,7 @@ Review and use the below file
 
 * [dynamo_query_pet_by_id.zip](/supporting_files/2018-02-11-serverless-project-lambda-integration-part-3/dynamo_query_pet_by_id.zip)
 
-The below command uses all default values to create a `query by pet id` function.
+The below command `lambda create-function` uses all default values to create a `query by pet id` function.
 
 ```
 
