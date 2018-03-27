@@ -109,4 +109,7 @@ the API Gateway and Lambda function and apply the policy.
 ## Test Remote
 Pull up the AWS API Gateway page and use the Console Test functionality to test the functions.
 
+## Delete Stack
+You just created a AWS Cloudformation Stack. You can get into the page and choose Action > Delete to delete the stact you just created.
+
 
