@@ -21,8 +21,7 @@ build:
     # Read more about steps on our dev center:
     # http://devcenter.wercker.com/docs/steps/index.html
   steps:
-    - arjen/hugo-build:
-        version: "0.42.1"
+    - arjen/hugo-build@2.2.1:
         theme: Hugo-Octopress
         flags: --buildDrafts=true
     - odk211/install-awscli:
