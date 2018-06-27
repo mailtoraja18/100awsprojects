@@ -1,0 +1,174 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Pet Clinic
+Outputs:
+  ApiUrl:
+    Description: URL of your API endpoint
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Ref: ApiGatewayApi
+        - .execute-api.
+        - Ref: AWS::Region
+        - .amazonaws.com/Prod
+Resources:
+  ApiGatewayApi:
+    Properties:
+      Cors: '''http://localhost:4200'''
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: s3://xdr56yhn-aws-sam/petstore_v2.yaml
+      StageName: Prod
+    Type: AWS::Serverless::Api
+  DeletePetByIDFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/f38fb4dccbd248d06857bd287dbd546c
+      Events:
+        DeletePetByIDAPI:
+          Properties:
+            Method: delete
+            Path: /pets/{petId}
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
+      Handler: dynamo_pet_delete_by_id.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  GetPetByIDFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/f38fb4dccbd248d06857bd287dbd546c
+      Events:
+        Inventory:
+          Properties:
+            Method: get
+            Path: /pets/{petId}
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
+      Handler: dynamo_pet_query_by_id.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  GetPetFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/f38fb4dccbd248d06857bd287dbd546c
+      Events:
+        GetPetAPI:
+          Properties:
+            Method: get
+            Path: /pets
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
+      Handler: dynamo_pet_query_all.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  GetPetImageFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/f38fb4dccbd248d06857bd287dbd546c
+      Events:
+        GetDownloadPetImageAPI:
+          Properties:
+            Method: get
+            Path: /pets/{petId}/imagefile/{fileName}
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
+      Handler: dynamo_pet_get_image_s3.handler
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - Statement:
+        - Action:
+          - s3:*
+          Effect: Allow
+          Resource: arn:aws:s3:::xdr56yhn-aws-sam-petclinic-pics/*
+        Version: '2012-10-17'
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  GetPetsByStatusFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/f38fb4dccbd248d06857bd287dbd546c
+      Events:
+        GetPetsByStatusAPI:
+          Properties:
+            Method: get
+            Path: /pets/status/{status}
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
+      Handler: dynamo_pet_find_by_status.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  PostPetFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/f38fb4dccbd248d06857bd287dbd546c
+      Events:
+        PostPetAPI:
+          Properties:
+            Method: post
+            Path: /pets
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
+      Handler: dynamo_pet_create_record.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  PostPetInfoByIDFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/f38fb4dccbd248d06857bd287dbd546c
+      Events:
+        PostPetInfoByIDAPI:
+          Properties:
+            Method: post
+            Path: /pets/{petId}/info
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
+      Handler: dynamo_pet_update_info.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  PostPetStatusByIDFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/f38fb4dccbd248d06857bd287dbd546c
+      Events:
+        PostPetSTatusByIDAPI:
+          Properties:
+            Method: post
+            Path: /pets/{petId}/status
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
+      Handler: dynamo_pet_update_status.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  PostUploadPetImageFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/f38fb4dccbd248d06857bd287dbd546c
+      Events:
+        PostUploadPetImageAPI:
+          Properties:
+            Method: post
+            Path: /pets/{petId}/imagefile/{fileName}
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
+      Handler: dynamo_pet_upload_image_s3.handler
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - Statement:
+        - Action:
+          - s3:*
+          Effect: Allow
+          Resource: arn:aws:s3:::xdr56yhn-aws-sam-petclinic-pics/*
+        Version: '2012-10-17'
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

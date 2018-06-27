@@ -1,0 +1,402 @@
+---
+swagger: '2.0'
+info:
+  description: >-
+    My Pet Store
+  version: 1.0.0
+  title: Swagger Petstore
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: mailtoraja18@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+basePath: /Prod
+tags:
+  - name: pet
+    description: Everything about your Pets
+    externalDocs:
+      description: Find out more
+      url: 'http://swagger.io'
+schemes:
+  - https
+paths:
+  /pets:
+    get:
+      summary: get all pets from db
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
+      x-amazon-apigateway-integration:
+        credentials: arn:aws:iam::374525349871:role/apigAwsProxyRole
+        responses:
+          default:
+            statusCode: 200
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetPetFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+    post:
+      summary: create a new pet
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Pet object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Pet'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Not authenticated
+        '403':
+          description: Access token does not have the required scope
+      x-amazon-apigateway-integration:
+        credentials: arn:aws:iam::374525349871:role/apigAwsProxyRole
+        responses:
+          default:
+            statusCode: 200
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostPetFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /pets/status/{status}:
+    get:
+      summary: get all pets from db
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: status   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The status of pet.
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
+      x-amazon-apigateway-integration:
+        credentials: arn:aws:iam::374525349871:role/apigAwsProxyRole
+        responses:
+          default:
+            statusCode: 200
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetPetsByStatusFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /pets/{petId}:
+    get:
+      tags:
+        - pet
+      summary: Finds a Pet by uuid
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findPetById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: petId   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The UUID of pet.
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
+        '400':
+          description: Invalid id value
+      x-amazon-apigateway-integration:
+        credentials: arn:aws:iam::374525349871:role/apigAwsProxyRole
+        responses:
+          default:
+            statusCode: 200
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetPetByIDFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+    delete:
+      summary: delete by pet id
+      description: delete by pet id
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: petId   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The UUID of pet.
+      responses:
+        200:
+          description: OK
+      x-amazon-apigateway-integration:
+        credentials: arn:aws:iam::374525349871:role/apigAwsProxyRole
+        responses:
+          default:
+            statusCode: 200
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeletePetByIDFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /pets/{petId}/info:
+    post:
+      tags:
+        - pet
+      summary: Updates a pet info in the store with form data
+      description: ''
+      operationId: updatePetWithForm
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: petId   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The UUID of pet.
+        - in: body
+          name: body
+          description: Pet info object
+          required: true
+          schema:
+            $ref: '#/definitions/Pet'
+      responses:
+        '405':
+          description: Invalid input
+        '200':
+          description: successful operation
+      x-amazon-apigateway-integration:
+        credentials: arn:aws:iam::374525349871:role/apigAwsProxyRole
+        responses:
+          default:
+            statusCode: 200
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostPetInfoByIDFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /pets/{petId}/status:
+    post:
+      tags:
+        - pet
+      summary: Updates a pet status
+      description: ''
+      operationId: updatePetStatus
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: petId   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The UUID of pet.
+        - in: body
+          name: body
+          description: Pet Status object
+          required: true
+          schema:
+            $ref: '#/definitions/Status'
+      responses:
+        '405':
+          description: Invalid input
+        '200':
+          description: successful operation
+      x-amazon-apigateway-integration:
+        credentials: arn:aws:iam::374525349871:role/apigAwsProxyRole
+        responses:
+          default:
+            statusCode: 200
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostPetStatusByIDFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /pet/{petId}/imagefile/{fileName}:
+    get:
+      tags:
+        - pet
+      summary: get image of pet
+      description: ''
+      operationId: getImage
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: petId   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The UUID of pet.
+        - in: path
+          name: fileName   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The fileName of the image to be stored.
+        - in: body
+          name: body
+          description: Pet Image object with base64 string image
+          required: true
+          schema:
+            $ref: '#/definitions/Image'
+      responses:
+        '405':
+          description: Invalid input
+        '200':
+          description: successful operation
+      x-amazon-apigateway-integration:
+        credentials: arn:aws:iam::374525349871:role/apigAwsProxyRole
+        responses:
+          default:
+            statusCode: 200
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetPetImageFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+    post:
+      tags:
+        - pet
+      summary: upload image of pet
+      description: ''
+      operationId: uploadImage
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: petId   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The UUID of pet.
+        - in: path
+          name: fileName   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The fileName of the image to be stored.
+        - in: body
+          name: body
+          description: Pet Image object with base64 string image
+          required: true
+          schema:
+            $ref: '#/definitions/Image'
+      responses:
+        '405':
+          description: Invalid input
+        '200':
+          description: successful operation
+      x-amazon-apigateway-integration:
+        credentials: arn:aws:iam::374525349871:role/apigAwsProxyRole
+        responses:
+          default:
+            statusCode: 200
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostUploadPetImageFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+definitions:
+  Status:
+    type: string
+    enum:
+          - available
+          - pending
+          - sold
+  Tag:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  Pet:
+    type: object
+    required:
+      - info
+    properties:
+      id:
+        type: integer
+      category:
+        type: string
+      info:
+        $ref: '#/definitions/Info'
+      status:
+        $ref: '#/definitions/Status'
+      zip:
+        type: string
+      contact:
+        $ref: '#/definitions/Contact'
+  Contact:
+    type: object
+    properties:
+      phone:
+        type: string
+      email:
+        type: string
+      address:
+        type: string
+  Info:
+    type: object
+    properties:
+      name:
+        type: string
+      photoUrls:
+        type: array
+        items:
+          type: string
+      tags:
+        type: array
+        items:
+          $ref: '#/definitions/Tag'
+  Image:
+    type: object
+    properties:
+      image:
+        type: string
+
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'

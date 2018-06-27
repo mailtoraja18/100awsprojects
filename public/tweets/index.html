@@ -16,7 +16,7 @@
   
 
   
-  <title>AWS Serverless Project Introduction Part 1</title>
+  <title>Tweets</title>
 
     
 
@@ -142,13 +142,13 @@ ga('send', 'pageview');
         
 
 <div>
-    <p><strong>Feb 7, 2018</strong>
+    <p><strong>Feb 10, 2018</strong>
         
         
 
         
        
-          <h3 class="entry-title"> AWS Serverless Project Introduction Part 1  </h3>         
+          <h3 class="entry-title"> Tweets  </h3>         
     </p>
 </div>
 
@@ -157,132 +157,12 @@ ga('send', 'pageview');
           
           
           
-            <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#objective">Objective</a></li>
-<li><a href="#the-plan">The Plan</a></li>
-<li><a href="#tools">Tools</a></li>
-<li><a href="#architecture">Architecture</a></li>
-<li><a href="#pet-store-swagger-yaml">Pet Store Swagger YAML</a></li>
-<li><a href="#pet-store-pet-table-data-model">Pet Store Pet Table Data Model</a></li>
-</ul></li>
-</ul>
-</nav>
+            
           
-          <p></p>
+          <div>
+<a class="twitter-timeline" href="https://twitter.com/rajaramkk/lists/awslist?ref_src=twsrc%5Etfw">A Twitter List by rajaramkk</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
 
-<h2 id="objective">Objective</h2>
-
-<p>We will create a Pet Store application using AWS serverless services, namely AWS DynamoDB , AWS Lambda , AWS API Gateway and AWS S3.
-We will use nodejs for our AWS Lambda programming needs. We will initially create the Pet table , load data and integrate the <code>Find By Pet ID</code> API.
-Then we can expand to integrating the others.</p>
-
-<h2 id="the-plan">The Plan</h2>
-
-<ul>
-<li>(Part 2)Using the Pet Store data model , create the DynamoDB table</li>
-<li>(Part 3)Create Lambda functions and integrate with Dynamo DB Pet table.</li>
-<li>(Part 4)Using the Pet Store YAML file , create the API Gateway and mock test the API</li>
-<li>(Part 5)Integrate the API Gateway and the Lambda Functions</li>
-<li>Understand how the above components work together</li>
-</ul>
-
-<h2 id="tools">Tools</h2>
-
-<ul>
-<li>Swagger Editor (<a href="https://editor.swagger.io//#/">https://editor.swagger.io//#/</a></li>
-<li>Sublime text or any js editor. (<a href="https://www.sublimetext.com/">https://www.sublimetext.com/</a>)</li>
-<li>NodeJS (<a href="https://nodejs.org/en/">https://nodejs.org/en/</a>)</li>
-<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html">Local installation of DynamoDB</a></li>
-<li>AWS Console</li>
-</ul>
-
-<h2 id="architecture">Architecture</h2>
-
-<p><img src="/supporting_files/2018-02-07-serverless-project-introduction-part-1/serverless-arch.png" alt="" /></p>
-
-<h2 id="pet-store-swagger-yaml">Pet Store Swagger YAML</h2>
-
-<p>Complete YAML can be found <a href="here">here</a></p>
-
-<p>Sample REST API</p>
-
-<pre><code>'/pet/{petId}':
-    get:
-      tags:
-        - pet
-      summary: Find pet by ID
-      description: Returns a single pet
-      operationId: getPetById
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to return
-          required: true
-          type: integer
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/Pet'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-      security:
-        - api_key: []
-</code></pre>
-
-<h2 id="pet-store-pet-table-data-model">Pet Store Pet Table Data Model</h2>
-
-<p>The Pet table has 4 columns ID , Category , Info and Status
-The Info Column would store a JSON with the details</p>
-
-<pre><code>definitions:
-  Tag:
-    type: object
-    properties:
-      id:
-        type: integer
-      name:
-        type: string
-  Pet:
-    type: object
-    required:
-      - info
-    properties:
-      id:
-        type: integer
-      category:
-        type: string
-      info:
-        $ref: '#/definitions/Info'
-      status:
-        type: string
-        description: pet status in the store
-        enum:
-          - available
-          - pending
-          - sold
-  Info:
-    type: object
-    properties:
-      name:
-        type: string
-      photoUrls:
-        type: array
-        items:
-          type: string
-      tags:
-        type: array
-        items:
-          $ref: '#/definitions/Tag'
-</code></pre>
         </div>
         
 
@@ -290,7 +170,7 @@ The Info Column would store a JSON with the details</p>
   <p class="meta">
     <span class="byline author vcard">Posted by <span class="fn">Rajaram Kumar</span></span>
     
-    <time>Feb 7, 2018</time>
+    <time>Feb 10, 2018</time>
     
     </span>
   </p>
@@ -302,11 +182,7 @@ The Info Column would store a JSON with the details</p>
 
   <p class="meta">
     
-        <a class="basic-alignment left" href="https://100awsprojects.com/post/2018-01-30-s3-website-ci-cd-with-wercker/" title="S3 Website Ci Cd With Wercker">S3 Website Ci Cd With Wercker</a>
-    
 
-    
-      <a class="basic-alignment right" href="https://100awsprojects.com/post/2018-02-08-aws-serverless-project-dynamodb-part-2/" title="AWS Serverless Project DynamoDB Part 2">AWS Serverless Project DynamoDB Part 2</a>
     
   </p>
   

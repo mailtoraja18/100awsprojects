@@ -6,10 +6,50 @@
     <description>Recent content in Posts on 100 AWS Projects</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 08 Feb 2018 03:13:22 -0500</lastBuildDate>
+    <lastBuildDate>Mon, 21 May 2018 03:13:22 -0500</lastBuildDate>
     
 	<atom:link href="https://100awsprojects.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Gateway using Swagger and SAM</title>
+      <link>https://100awsprojects.com/post/2018-05-21-gateway-using-swagger-and-sam/</link>
+      <pubDate>Mon, 21 May 2018 03:13:22 -0500</pubDate>
+      
+      <guid>https://100awsprojects.com/post/2018-05-21-gateway-using-swagger-and-sam/</guid>
+      <description>Overview This example combines AWS SAM and Swagger Notation.Review the 2 files given below and understand different aspects.Here are some things about this example.
+ When deployed , the swagger file here serves to create the API in the API Gateway. The template file maps the api gateway API&amp;rsquo;s to the node js methods.  petstore_v2.yaml template_v2.yaml   petstore_v2.yaml Swagger file to create the API&amp;rsquo;s in the API Gateway.</description>
+    </item>
+    
+    <item>
+      <title>Experiment with SAM Local</title>
+      <link>https://100awsprojects.com/post/2018-03-21-experiment-with-sam-local/</link>
+      <pubDate>Wed, 21 Mar 2018 03:13:22 -0500</pubDate>
+      
+      <guid>https://100awsprojects.com/post/2018-03-21-experiment-with-sam-local/</guid>
+      <description>The goal of AWS SAM is to define a standard application model for serverless applications. With AWS SAM Local you can be used to test functions LOCALLY in your desktop, start a LOCAL API Gateway from a SAM template, validate a SAM template, and generate sample payloads for various event sources. Lets get started to see some SAM Local in action. After testing locally you can package and deploy the functions to remote.</description>
+    </item>
+    
+    <item>
+      <title>AWS Serverless Project APIGateway Integration Part 4</title>
+      <link>https://100awsprojects.com/post/2018-02-15-aws-serverless-project-apigateway-integration-part-4/</link>
+      <pubDate>Thu, 15 Feb 2018 03:13:22 -0500</pubDate>
+      
+      <guid>https://100awsprojects.com/post/2018-02-15-aws-serverless-project-apigateway-integration-part-4/</guid>
+      <description>Lets get started with the API Gateway integraton. We will import a Swagger API definition and integrate one of out API , GET /pet/{petId}. We have enabled LAMBDA_PROXY integration method type for our API . Read more about the magic here. This will enable lambda to get a handle to our http request and all its details, coming from the API Gateway.
+Change the Lambda code Change the lambda code for the function dynamo_query_pet_by_id to read path prameter {petId}.</description>
+    </item>
+    
+    <item>
+      <title>AWS Serverless Project Lambda Integration Part 3</title>
+      <link>https://100awsprojects.com/post/2018-02-11-aws-serverless-project-lambda-integration-part-3/</link>
+      <pubDate>Sun, 11 Feb 2018 03:13:22 -0500</pubDate>
+      
+      <guid>https://100awsprojects.com/post/2018-02-11-aws-serverless-project-lambda-integration-part-3/</guid>
+      <description>First Read this Understanding the lambda function Handler Read More&amp;hellip;
+Create IAM Policy Review and use the below 3 files , download to a folder and execute the following command This will create a IAM Role and grants (2) permission to the Pet table and the Cloudwatch logs.
+ trustpolicy.json dynamodb_permission_serverless.json log_permission_serverless.json   # Create the role and attach the trust policy that enables Lambda to assume this role.</description>
+    </item>
     
     <item>
       <title>AWS Serverless Project DynamoDB Part 2</title>

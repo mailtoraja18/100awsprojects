@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+  
+  
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+
+  
+  <title>AWS Serverless Project Lambda Integration Part 3</title>
+
+    
+
+  
+  
+    <link rel="stylesheet" href="https://100awsprojects.com/css/table.css">
+  
+
+  
+  
+
+  
+  <link rel="stylesheet" href="/css/hugo-octopress.css">
+
+  
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+  
+  <link href="https://100awsprojects.com/favicon.png" rel="icon">
+
+  
+  
+  
+
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <meta name="author" content="Rajaram Kumar">
+
+  
+  <meta name="generator" content="Hugo 0.32.4" />
+
+  
+  
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-XXXXX-X', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+</head>
+<body>
+
+
+<header role="banner"><hgroup>
+  
+  <h1><a href="https://100awsprojects.com/">100 AWS Projects</a></h1>
+    <h2>AWS Projects to get you started</h2>
+</hgroup></header>
+
+
+<nav role="navigation">
+<fieldset class="mobile-nav">
+  
+  <select onchange="location = this.value;">
+    <option value="">Navigate…</option>
+      
+        <option value="https://100awsprojects.com/">» All Posts</option>
+      
+        <option value="https://100awsprojects.com/awslinks/">» AWS Links</option>
+      
+        <option value="https://100awsprojects.com/tweets/">» Tweets</option>
+      
+        <option value="https://100awsprojects.com/about/">» About</option>
+      
+
+  </select>
+</fieldset>
+
+
+<ul class="main-navigation">
+  
+  
+    
+      <li><a href="https://100awsprojects.com/" title="All Posts">All Posts</a></li>
+    
+  
+    
+      <li><a href="https://100awsprojects.com/awslinks/" title="AWS Links" >AWS Links</a></li>
+    
+  
+    
+      <li><a href="https://100awsprojects.com/tweets/" title="Tweets" >Tweets</a></li>
+    
+  
+    
+      <li><a href="https://100awsprojects.com/about/" title="About" >About</a></li>
+    
+  
+</ul>
+
+
+<ul class="subscription">
+  
+    
+        <a href="https://100awsprojects.com/index.xml" target="_blank" type="application/rss+xml" title="RSS"><i class="fa fa-rss-square fa-lg"></i></a>
+    
+  
+
+</ul>
+
+
+<form action="https://www.google.com/search" method="get" target="_blank">
+  <fieldset role="search">
+  	<input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    <input type="hidden" name="q" value="site:https://100awsprojects.com/" />
+  </fieldset>
+</form>
+
+</nav>
+
+
+<div id="main">
+  <div id="content">
+    <div>
+      <article class="hentry" role="article">
+
+        
+        
+
+<div>
+    <p><strong>Feb 11, 2018</strong>
+        
+        
+
+        
+       
+          <h3 class="entry-title"> AWS Serverless Project Lambda Integration Part 3  </h3>         
+    </p>
+</div>
+
+        <div class="entry-content">
+          
+          
+          
+          
+            <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#first-read-this">First Read this</a></li>
+<li><a href="#create-iam-policy">Create IAM Policy</a></li>
+<li><a href="#the-lambda-function">The Lambda function</a></li>
+<li><a href="#create-above-lambda-function-using-cli">Create Above Lambda Function Using CLI</a></li>
+<li><a href="#test-your-lambda">Test your Lambda</a></li>
+<li><a href="#next">Next</a></li>
+</ul></li>
+</ul>
+</nav>
+          
+          
+
+<!-- more -->
+
+<h2 id="first-read-this">First Read this</h2>
+
+<p>Understanding the lambda function Handler <a href="https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-handler.html">Read More&hellip;</a></p>
+
+<h2 id="create-iam-policy">Create IAM Policy</h2>
+
+<p>Review and use the below 3 files , download to a folder and execute the following command
+This will create a IAM Role and grants (2) permission to the Pet table and the Cloudwatch logs.</p>
+
+<ul>
+<li><a href="/supporting_files/2018-02-11-serverless-project-lambda-integration-part-3/trustpolicy.json">trustpolicy.json</a></li>
+<li><a href="/supporting_files/2018-02-11-serverless-project-lambda-integration-part-3/dynamodb_permission_serverless.json">dynamodb_permission_serverless.json</a></li>
+<li><a href="/supporting_files/2018-02-11-serverless-project-lambda-integration-part-3/log_permission_serverless.json">log_permission_serverless.json</a></li>
+</ul>
+
+<pre><code>
+# Create the role and attach the trust policy that enables Lambda to assume this role.
+$ aws iam create-role --role-name lambda-execution-serverless --assume-role-policy-document file://trustpolicy.json
+
+# Embed the permissions policy (in this example an inline policy) to the role to specify what it is allowed to do.
+$ aws iam put-role-policy --role-name lambda-execution-serverless --policy-name permission-dynamodb-serverless --policy-document file://dynamodb_permission_serverless.json
+$ aws iam put-role-policy --role-name lambda-execution-serverless --policy-name permission-log-serverless --policy-document file://log_permission_serverless.json
+
+</code></pre>
+
+<p>After this step make a note of the <code>arn:aws:iam::375525124878:role/lambda-execution-serverless</code> from your command window</p>
+
+<p>Login and review from console now !!</p>
+
+<h2 id="the-lambda-function">The Lambda function</h2>
+
+<p>We are going to use the below lambda function, which querries the DynamoDb for a pet using a hard-coded primary key. This also logs the informaton in the console.</p>
+
+<pre><code>var AWS = require(&quot;aws-sdk&quot;);
+var docClient = new AWS.DynamoDB.DocumentClient();
+exports.dynamo_query_pet_by_id = (event, context, callback) =&gt; {
+var id = 1; // we will change this later
+var params = {
+    TableName : &quot;Pet&quot;,
+    KeyConditionExpression: &quot;#id_key = :id_val&quot;,
+    ExpressionAttributeNames:{
+        &quot;#id_key&quot;: &quot;id&quot;
+    },
+    ExpressionAttributeValues: {
+        &quot;:id_val&quot;:id
+    }
+};
+docClient.query(params, function(err, data) {
+    if (err) {
+        console.error(&quot;Unable to query. Error:&quot;, JSON.stringify(err, null, 2));
+    } else {
+        console.log(&quot;Query succeeded.&quot;);
+        data.Items.forEach(function(item) {
+            //response has to structure this way for API Gateway to handle
+            var response = {
+                &quot;statusCode&quot;: 200,
+                &quot;headers&quot;: {
+                    &quot;my_header&quot;: &quot;my_value&quot;
+                },
+                &quot;body&quot;: JSON.stringify(item), //data
+                &quot;isBase64Encoded&quot;: false
+            };
+            callback(null,response); //returning call using callback
+            console.log(item);
+        });
+    }
+});
+};
+
+</code></pre>
+
+<h2 id="create-above-lambda-function-using-cli">Create Above Lambda Function Using CLI</h2>
+
+<p>Review and use the below file</p>
+
+<ul>
+<li><p><a href="/supporting_files/2018-02-11-serverless-project-lambda-integration-part-3/dynamo_query_pet_by_id.js">dynamo_query_pet_by_id.js</a></p></li>
+
+<li><p><a href="/supporting_files/2018-02-11-serverless-project-lambda-integration-part-3/dynamo_query_pet_by_id.zip">dynamo_query_pet_by_id.zip</a></p></li>
+</ul>
+
+<p>The below command <code>lambda create-function</code> uses all default values to create a <code>query by pet id</code> function.</p>
+
+<pre><code>
+$ aws lambda create-function --function-name &quot;dynamo_query_pet_by_id&quot; --runtime &quot;nodejs6.10&quot; --role &quot;arn:aws:iam::374525349870:role/lambda-execution-serverless&quot; --handler &quot;dynamo_query_pet_by_id.dynamo_query_pet_by_id&quot; --zip-file fileb://dynamo_query_pet_by_id.zip
+
+</code></pre>
+
+<p>Login to the console <code>Lambda &gt; Functions &gt; dynamo_query_pet_by_id</code> and review the function.</p>
+
+<h2 id="test-your-lambda">Test your Lambda</h2>
+
+<p>Login to the console and create a test function. Dont worry about passing values. Just execute the query.
+You should see a response from the DynamoDB becuase the primary key is hard coded into the function.</p>
+
+<p>Hurrey !! You now have a working function that can query the DynamoDb</p>
+
+<h2 id="next">Next</h2>
+
+<p>Lets integrate the AWS API Gateway to call out Lambda function , which in turn would call the DynamoDb.</p>
+
+        </div>
+        
+
+<footer>
+  <p class="meta">
+    <span class="byline author vcard">Posted by <span class="fn">Rajaram Kumar</span></span>
+    
+    <time>Feb 11, 2018</time>
+    
+    </span>
+  </p>
+
+  
+  
+
+  
+
+  <p class="meta">
+    
+        <a class="basic-alignment left" href="https://100awsprojects.com/post/2018-02-08-aws-serverless-project-dynamodb-part-2/" title="AWS Serverless Project DynamoDB Part 2">AWS Serverless Project DynamoDB Part 2</a>
+    
+
+    
+      <a class="basic-alignment right" href="https://100awsprojects.com/post/2018-02-15-aws-serverless-project-apigateway-integration-part-4/" title="AWS Serverless Project APIGateway Integration Part 4">AWS Serverless Project APIGateway Integration Part 4</a>
+    
+  </p>
+  
+</footer>
+
+      </article>
+    </div>
+    
+
+<aside class="sidebar thirds">
+  <section class="first odd">
+
+    
+      <h1>Who am I ?</h1>
+    
+
+    <p>
+      
+        I am Rajaram Kumar , working as a Java software engineer.
+  <br>
+  I am interested in AWS and exploring it through projects. I have 2 AWS Certifications , Developer and Architect
+      
+    </p>
+  </section>
+
+
+
+  
+  <ul class="sidebar-nav">
+    <li class="sidebar-nav-item">
+      <a target="_blank" href="https://github.com/" title="https://github.com/"><i class="fa fa-github fa-3x"></i></a>
+      <a target="_blank" href="https://bitbucket.org/" title="https://bitbucket.org/"><i class="fa fa-bitbucket fa-3x"></i></a>
+      
+      <a target="_blank" href="https://twitter.com/" title="https://twitter.com/"><i class="fa fa-twitter fa-3x"></i></a>
+      <a target="_blank" href="https://keybase.io/" title="https://keybase.io/"><i class="fa fa-key fa-3x"></i></a> 
+      
+      
+      
+      
+      
+      
+
+    
+    
+    </li>
+  </ul>
+
+  
+
+  
+    
+      <section class="odd">
+        
+        
+      </section>
+    
+  
+
+  
+  
+  
+
+</aside>
+
+  </div>
+</div>
+
+<footer role="contentinfo">
+  <p>Copyright &copy; 2018 Rajaram Kumar - <a href="https://100awsprojects.com/license/">License</a> -
+  <span class="credit">Powered by <a target="_blank" href="https://gohugo.io">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/">Hugo-Octopress</a> theme.
+</p>
+
+</footer>
+
+
+
+
+
+
+<script>
+  var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+  s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+
+</body>
+</html>
+

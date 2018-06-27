@@ -3,6 +3,41 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://100awsprojects.com/post/2018-05-21-gateway-using-swagger-and-sam/</loc>
+    <lastmod>2018-05-21T03:13:22-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://100awsprojects.com/post/2018-03-21-experiment-with-sam-local/</loc>
+    <lastmod>2018-03-21T03:13:22-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://100awsprojects.com/post/2018-02-15-aws-serverless-project-apigateway-integration-part-4/</loc>
+    <lastmod>2018-02-15T03:13:22-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://100awsprojects.com/post/2018-02-11-aws-serverless-project-lambda-integration-part-3/</loc>
+    <lastmod>2018-02-11T03:13:22-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://100awsprojects.com/awslinks/</loc>
+    <lastmod>2018-02-10T11:48:22-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://100awsprojects.com/about/</loc>
+    <lastmod>2018-02-10T11:48:22-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://100awsprojects.com/tweets/</loc>
+    <lastmod>2018-02-10T11:48:22-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://100awsprojects.com/post/2018-02-08-aws-serverless-project-dynamodb-part-2/</loc>
     <lastmod>2018-02-08T03:13:22-05:00</lastmod>
   </url>
@@ -10,11 +45,6 @@
   <url>
     <loc>https://100awsprojects.com/post/2018-02-07-aws-serverless-project-introduction-part-1/</loc>
     <lastmod>2018-02-07T13:13:22-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://100awsprojects.com/awslinks/</loc>
-    <lastmod>2018-02-07T03:13:22-05:00</lastmod>
   </url>
   
   <url>
@@ -34,7 +64,7 @@
   
   <url>
     <loc>https://100awsprojects.com/</loc>
-    <lastmod>2018-02-08T03:13:22-05:00</lastmod>
+    <lastmod>2018-05-21T03:13:22-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -45,7 +75,7 @@
   
   <url>
     <loc>https://100awsprojects.com/post/</loc>
-    <lastmod>2018-02-08T03:13:22-05:00</lastmod>
+    <lastmod>2018-05-21T03:13:22-05:00</lastmod>
     <priority>0</priority>
   </url>
   

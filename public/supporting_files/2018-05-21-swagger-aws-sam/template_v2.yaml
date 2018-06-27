@@ -1,0 +1,162 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Pet Clinic
+Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+
+      # Allows www.example.com to call these APIs
+      # SAM will automatically add AllowMethods with a list of methods for this API
+      Cors: "'http://localhost:4200'"
+
+      DefinitionBody:
+          'Fn::Transform':
+            Name: 'AWS::Include'
+            # Replace <bucket> with your bucket name
+            Parameters:
+              Location: "s3://xdr56yhn-aws-sam/petstore_v2.yaml"
+
+  GetPetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_query_all.handler
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        GetPetAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayApi
+            Path: /pets
+            Method: get
+  PostPetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_create_record.handler
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        PostPetAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayApi
+            Path: /pets
+            Method: post
+  GetPetByIDFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_query_by_id.handler
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayApi
+            Path: /pets/{petId}
+            Method: get
+  PostPetInfoByIDFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_update_info.handler
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        PostPetInfoByIDAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayApi
+            Path: /pets/{petId}/info
+            Method: post                        
+  PostPetStatusByIDFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_update_status.handler
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        PostPetSTatusByIDAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayApi
+            Path: /pets/{petId}/status
+            Method: post    
+  DeletePetByIDFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_delete_by_id.handler
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        DeletePetByIDAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayApi
+            Path: /pets/{petId}
+            Method: delete
+  GetPetsByStatusFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_find_by_status.handler
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        GetPetsByStatusAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayApi
+            Path: /pets/status/{status}
+            Method: get
+  PostUploadPetImageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_upload_image_s3.handler
+      Runtime: nodejs6.10
+      Policies: 
+        - AmazonDynamoDBFullAccess
+        - Version: '2012-10-17' # Policy Document
+          Statement:
+           - Effect: Allow
+             Action:
+               - s3:*
+             Resource: 'arn:aws:s3:::xdr56yhn-aws-sam-petclinic-pics/*'
+      Events:
+        PostUploadPetImageAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayApi
+            Path: /pets/{petId}/imagefile/{fileName}
+            Method: post
+  GetPetImageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_get_image_s3.handler
+      Runtime: nodejs6.10
+      Policies: 
+        - AmazonDynamoDBFullAccess
+        - Version: '2012-10-17' # Policy Document
+          Statement:
+           - Effect: Allow
+             Action:
+               - s3:*
+             Resource: 'arn:aws:s3:::xdr56yhn-aws-sam-petclinic-pics/*'
+      Events:
+        GetDownloadPetImageAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayApi
+            Path: /pets/{petId}/imagefile/{fileName}
+            Method: get
+Outputs:
+  ApiUrl:
+    Description: URL of your API endpoint
+    Value: !Join
+      - ''
+      - - https://
+        - !Ref ApiGatewayApi
+        - '.execute-api.'
+        - !Ref 'AWS::Region'
+        - '.amazonaws.com/Prod'
