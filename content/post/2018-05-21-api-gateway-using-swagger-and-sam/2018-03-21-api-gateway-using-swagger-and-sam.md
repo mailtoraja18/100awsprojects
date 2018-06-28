@@ -1,5 +1,5 @@
 ---
-title: "Gateway using Swagger and SAM"
+title: "API Gateway using Swagger and SAM"
 date: 2018-05-21T03:13:22-05:00
 draft: false
 include_toc: true
