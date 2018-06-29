@@ -16,7 +16,7 @@
   
 
   
-  <title>100 AWS Projects</title>
+  <title>API Gateway using Swagger and SAM</title>
 
     
 
@@ -41,7 +41,7 @@
   
   
 
-  <link href="https://100awsprojects.com/index.xml" rel="alternate" type="application/rss+xml" title="100 AWS Projects" />
+  
 
   <meta name="description" content="">
   <meta name="keywords" content="">
@@ -134,12 +134,10 @@ ga('send', 'pageview');
 
 
 <div id="main">
- <div id="content">
-  <div class="blog-index">
-      <article> <table cellpadding="0" cellspacing="0">         
-    
-    
-       <tr> <td>       
+  <div id="content">
+    <div>
+      <article class="hentry" role="article">
+
         
         
 
@@ -150,169 +148,119 @@ ga('send', 'pageview');
 
         
        
-        <a href="https://100awsprojects.com/post/2018-05-21-api-gateway-using-swagger-and-sam/">API Gateway using Swagger and SAM</a>        
+          <h3 class="entry-title"> API Gateway using Swagger and SAM  </h3>         
     </p>
 </div>
 
-       </td>
-       </tr>
+        <div class="entry-content">
+          
+          
+          
+          
+            <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#petstore-v2-yaml">petstore_v2.yaml</a></li>
+<li><a href="#template-v2-yaml">template_v2.yaml</a></li>
+<li><a href="#commands">Commands</a></li>
+</ul></li>
+</ul>
+</nav>
+          
+          
+
+<!-- more -->
+
+<h2 id="overview">Overview</h2>
+
+<p>This example combines AWS SAM and Swagger Notation.Review the 2 files given below and understand different aspects.Here are some things about this example.</p>
+
+<ul>
+<li>When deployed , the swagger file here serves to create the API in the API Gateway.</li>
+<li>The template file maps the api gateway API&rsquo;s to the node js methods.
+
+<ul>
+<li><a href="/supporting_files/2018-05-21-swagger-aws-sam/petstore_v2.yaml">petstore_v2.yaml</a></li>
+<li><a href="/supporting_files/2018-05-21-swagger-aws-sam/template_v2.yaml">template_v2.yaml</a></li>
+</ul></li>
+</ul>
+
+<h2 id="petstore-v2-yaml">petstore_v2.yaml</h2>
+
+<p>Swagger file to create the API&rsquo;s in the API Gateway.</p>
+
+<p>The x-amazon-apigateway-integration helps point to the IAM credetials that will be used for integrating the API with the AWS Lambda function code. We are using the <code>aws_proxy</code> type integration in our example.</p>
+
+<p>Replace <code>374525342871</code> with your ARN in the petstore_v1.yaml</p>
+
+<pre><code>  x-amazon-apigateway-integration:
+        credentials: arn:aws:iam::374525342871:role/apigAwsProxyRole
+        responses:
+          default:
+            statusCode: 200
+        uri:
+          Fn::Sub: &quot;arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetPetFunction.Arn}/invocations&quot;
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+</code></pre>
+
+<h2 id="template-v2-yaml">template_v2.yaml</h2>
+
+<p>The below yaml snippet helps to setup the CORS and include the the swagger file in the template.yaml</p>
+
+<pre><code> Cors: &quot;'http://localhost:4200'&quot;
+      DefinitionBody:
+          'Fn::Transform':
+            Name: 'AWS::Include'
+            # Replace &lt;bucket&gt; with your bucket name
+            Parameters:
+              Location: &quot;s3://xdr56yhn-aws-sam/petstore_v2.yaml&quot;
+</code></pre>
+
+<h2 id="commands">Commands</h2>
+
+<p>Use the below informaton to package and run the application.</p>
+
+<ul>
+<li>create a new bucket like <code>xdr56yhn-aws-sam</code> in your account.</li>
+<li>Copy the petstore_v2.yaml into the xdr56yhn-aws-sam s3 bucket.</li>
+<li><code>sam package --template-file template_v2.yaml --s3-bucket xdr56yhn-aws-sam --output-template-file packaged_v2.yaml</code></li>
+<li><code>sam deploy --template-file ./packaged_v2.yaml --stack-name PetStack --capabilities CAPABILITY_IAM</code></li>
+</ul>
+
+        </div>
+        
+
+<footer>
+  <p class="meta">
+    <span class="byline author vcard">Posted by <span class="fn">Rajaram Kumar</span></span>
     
-       <tr> <td>       
-        
-        
-
-<div>
-    <p><strong>Mar 21, 2018</strong>
-        
-        
-
-        
-       
-        <a href="https://100awsprojects.com/post/2018-03-21-experiment-with-sam-local/">Experiment with SAM Local</a>        
-    </p>
-</div>
-
-       </td>
-       </tr>
+    <time>May 21, 2018</time>
     
-       <tr> <td>       
-        
-        
+    </span>
+  </p>
 
-<div>
-    <p><strong>Feb 15, 2018</strong>
-        
-        
+  
+  
 
-        
-       
-        <a href="https://100awsprojects.com/post/2018-02-15-aws-serverless-project-apigateway-integration-part-4/">AWS Serverless Project APIGateway Integration Part 4</a>        
-    </p>
-</div>
+  
 
-       </td>
-       </tr>
+  <p class="meta">
     
-       <tr> <td>       
-        
-        
-
-<div>
-    <p><strong>Feb 11, 2018</strong>
-        
-        
-
-        
-       
-        <a href="https://100awsprojects.com/post/2018-02-11-aws-serverless-project-lambda-integration-part-3/">AWS Serverless Project Lambda Integration Part 3</a>        
-    </p>
-</div>
-
-       </td>
-       </tr>
+        <a class="basic-alignment left" href="https://100awsprojects.com/post/2018-03-21-experiment-with-sam-local/" title="Experiment with SAM Local">Experiment with SAM Local</a>
     
-       <tr> <td>       
-        
-        
 
-<div>
-    <p><strong>Feb 8, 2018</strong>
-        
-        
-
-        
-       
-        <a href="https://100awsprojects.com/post/2018-02-08-aws-serverless-project-dynamodb-part-2/">AWS Serverless Project DynamoDB Part 2</a>        
-    </p>
-</div>
-
-       </td>
-       </tr>
     
-       <tr> <td>       
-        
-        
+  </p>
+  
+</footer>
 
-<div>
-    <p><strong>Feb 7, 2018</strong>
-        
-        
-
-        
-       
-        <a href="https://100awsprojects.com/post/2018-02-07-aws-serverless-project-introduction-part-1/">AWS Serverless Project Introduction Part 1</a>        
-    </p>
-</div>
-
-       </td>
-       </tr>
-    
-       <tr> <td>       
-        
-        
-
-<div>
-    <p><strong>Jan 30, 2018</strong>
-        
-        
-
-        
-       
-        <a href="https://100awsprojects.com/post/2018-01-30-s3-website-ci-cd-with-wercker/">S3 Website Ci Cd With Wercker</a>        
-    </p>
-</div>
-
-       </td>
-       </tr>
-    
-       <tr> <td>       
-        
-        
-
-<div>
-    <p><strong>Jan 27, 2018</strong>
-        
-        
-
-        
-       
-        <a href="https://100awsprojects.com/post/2018-01-27-s3-website-using-cf--route-53-and-python-scripts/">S3 Website Using cf , Route 53 and Python Scripts</a>        
-    </p>
-</div>
-
-       </td>
-       </tr>
-    
-       <tr> <td>       
-        
-        
-
-<div>
-    <p><strong>Jan 21, 2018</strong>
-        
-        
-
-        
-       
-        <a href="https://100awsprojects.com/post/2018-01-21-markdown-reference/">Markdown reference</a>        
-    </p>
-</div>
-
-       </td>
-       </tr>
-    
-      </table>
       </article>
+    </div>
     
-    
-
-
-
-
-  
-  </div>
-
-  
 
 <aside class="sidebar thirds">
   <section class="first odd">
@@ -368,8 +316,8 @@ ga('send', 'pageview');
   
 
 </aside>
-    
- </div>
+
+  </div>
 </div>
 
 <footer role="contentinfo">
@@ -393,4 +341,4 @@ ga('send', 'pageview');
 
 </body>
 </html>
-   
+

@@ -12,11 +12,11 @@
     
     
     <item>
-      <title>Gateway using Swagger and SAM</title>
-      <link>https://100awsprojects.com/post/2018-05-21-gateway-using-swagger-and-sam/</link>
+      <title>API Gateway using Swagger and SAM</title>
+      <link>https://100awsprojects.com/post/2018-05-21-api-gateway-using-swagger-and-sam/</link>
       <pubDate>Mon, 21 May 2018 03:13:22 -0500</pubDate>
       
-      <guid>https://100awsprojects.com/post/2018-05-21-gateway-using-swagger-and-sam/</guid>
+      <guid>https://100awsprojects.com/post/2018-05-21-api-gateway-using-swagger-and-sam/</guid>
       <description>Overview This example combines AWS SAM and Swagger Notation.Review the 2 files given below and understand different aspects.Here are some things about this example.
  When deployed , the swagger file here serves to create the API in the API Gateway. The template file maps the api gateway API&amp;rsquo;s to the node js methods.  petstore_v2.yaml template_v2.yaml   petstore_v2.yaml Swagger file to create the API&amp;rsquo;s in the API Gateway.</description>
     </item>
