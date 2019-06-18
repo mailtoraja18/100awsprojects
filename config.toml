@@ -2,7 +2,7 @@ baseurl = "https://100awsprojects.com"
 disablePathToLower = false
 languageCode = "en-us"
 title = "100 AWS Projects"
-theme = "hugo-octopress"
+theme = "Hugo-Octopress"
 
 # Disqus shortcode
 # Disable comments for any individual post by adding "comments: false" in its frontmatter

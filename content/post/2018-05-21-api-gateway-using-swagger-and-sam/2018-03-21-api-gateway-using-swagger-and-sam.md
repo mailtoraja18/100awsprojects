@@ -7,7 +7,7 @@ include_toc: true
 <!-- more -->
 
 ## Overview
-This example combines AWS SAM and Swagger Notation.Review the 2 files given below and understand different aspects.Here are some things about this example.
+This example combines AWS SAM and Swagger Notation.Review the below 2 files given below and understand different aspects.Here are some things about this example.
 
 * When deployed , the swagger file here serves to create the API in the API Gateway.
 * The template file maps the api gateway API's to the node js methods.
